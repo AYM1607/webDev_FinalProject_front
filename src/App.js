@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { withRouter } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
+import "./App.css";
 
-function App() {
+import NavigationBar from "./components/NavigationBar";
+import Routes from "./Routes";
+
+const RoutesContainer = styled.div`
+  margin-top: 60px;
+`;
+
+const GlobalStyles = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <GlobalStyles />
+      <NavigationBar {...props} />
+      <RoutesContainer>
+        <Routes {...props} />
+      </RoutesContainer>
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);
