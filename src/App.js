@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import "./App.css";
 
+import auth from "./lib/auth";
+
 import NavigationBar from "./components/NavigationBar";
+import ShoppingCart from "./components/ShoppingCart";
 import Routes from "./Routes";
 
 const RoutesContainer = styled.div`
@@ -22,13 +25,20 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 function App(props) {
+  const [authState, setAuthState] = useState(auth.initialState);
+
+  useLayoutEffect(() => {
+    auth.subscribe(setAuthState);
+  }, []);
+
   return (
     <div>
       <GlobalStyles />
-      <NavigationBar {...props} />
+      <NavigationBar {...props} isAuthenticated={authState.isAuthenticated} />
       <RoutesContainer>
-        <Routes {...props} />
+        <Routes {...props} isAuthenticated={authState.isAuthenticated} />
       </RoutesContainer>
+      <ShoppingCart {...props} />
     </div>
   );
 }

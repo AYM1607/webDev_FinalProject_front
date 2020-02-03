@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { formatNumber, mapColorStringToHexString } from "../lib/core";
+import cart from "../lib/shoppingCart";
 
 const Card = styled.div`
   width: 360px;
@@ -96,6 +97,7 @@ export default function ProductCard(props) {
         <ColorsRow>
           {availableColors.map(color => (
             <Color
+              key={color}
               active={selectedColor === color}
               backgroundColor={mapColorStringToHexString(color)}
               onClick={() => setSelectedColor(color)}
@@ -104,7 +106,17 @@ export default function ProductCard(props) {
         </ColorsRow>
         <BottomRow>
           <div>{formatNumber(price / 100)}</div>
-          <AddToCartButton>Agregar al carrito</AddToCartButton>
+          <AddToCartButton
+            onClick={() =>
+              cart.addItem({
+                ...props.product,
+                color: selectedColor,
+                amount: 1
+              })
+            }
+          >
+            Agregar al carrito
+          </AddToCartButton>
         </BottomRow>
       </CardContent>
     </Card>

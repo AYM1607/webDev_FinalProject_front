@@ -18,7 +18,6 @@ export default function(props) {
   return (
     <TitlesContainer>
       <Title>No pudimos encontrar esta pagina.</Title>
-      <p>Regresa a un lugar seguro</p>
     </TitlesContainer>
   );
 }

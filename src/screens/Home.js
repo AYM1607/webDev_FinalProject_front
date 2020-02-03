@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import ProductCard from "../containers/ProductCard";
+import ProductCard from "../components/ProductCard";
 
 import bannerImage from "../assets/background.jpg";
 
 const products = [
   {
+    id: "lkjasdf",
     name: "Cartera para dama",
     description:
       "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
@@ -16,6 +17,7 @@ const products = [
       "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
   },
   {
+    id: "lkjasdfasdf",
     name: "Cartera para dama",
     description:
       "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
@@ -25,6 +27,7 @@ const products = [
       "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
   },
   {
+    id: "lkjasdsaaaasdf",
     name: "Cartera para dama",
     description:
       "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
@@ -34,6 +37,7 @@ const products = [
       "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
   },
   {
+    id: "lkj345asdf",
     name: "Cartera para dama",
     description:
       "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
@@ -43,6 +47,7 @@ const products = [
       "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
   },
   {
+    id: "lkasdf34jasdf",
     name: "Cartera para dama",
     description:
       "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
@@ -52,6 +57,7 @@ const products = [
       "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
   },
   {
+    id: "lkjasdaaasdddfff",
     name: "Cartera para dama",
     description:
       "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
@@ -117,7 +123,7 @@ export default function Home(props) {
       <Title>Lo más nuevo:</Title>
       <CardsContainer>
         {products.map(product => (
-          <ProductCard product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </CardsContainer>
     </>
