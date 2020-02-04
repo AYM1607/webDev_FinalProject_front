@@ -1,16 +1,20 @@
 import { ulid } from "ulid";
 
+import auth from "./auth";
+
 const baseUrl = "https://boiling-wildwood-80394.herokuapp.com";
 
 export async function createProduct(productObject, image) {
   const imageUrl = await uploadImage(image);
   const payload = { ...productObject, imageUrl };
+  const token = auth.getCurrentToken();
 
   const params = {
     method: "POST",
     mode: "cors",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
     },
     body: JSON.stringify(payload)
   };
@@ -18,6 +22,42 @@ export async function createProduct(productObject, image) {
   if (!response.ok) {
     throw new Error("Could not create product");
   }
+}
+
+export async function createOrder(values) {
+  const token = auth.getCurrentToken();
+  const payload = {
+    ...values,
+    timestamp: new Date().getTime()
+  };
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
+    body: JSON.stringify(payload)
+  };
+  const response = await fetch(`${baseUrl}/orders`, params);
+  if (!response.ok) {
+    throw new Error("Could not create order");
+  }
+}
+
+export async function getOrders() {
+  const token = auth.getCurrentToken();
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  };
+  const response = await fetch(`${baseUrl}/orders`, params);
+  if (!response.ok) {
+    throw new Error("Could not create order");
+  }
+  return await response.json();
 }
 
 export async function getTopProducts() {
@@ -49,6 +89,21 @@ export async function searchProducts(name, category, minRange, maxRange) {
   return await response.json();
 }
 
+export async function deleteProduct(productId) {
+  const token = auth.getCurrentToken();
+  const response = await fetch(`${baseUrl}/products/${productId}`, {
+    method: "DELETE",
+    mode: "cors",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not delete product");
+  }
+}
+
 export async function register(values) {
   const params = {
     method: "POST",
@@ -61,6 +116,26 @@ export async function register(values) {
   const response = await fetch(`${baseUrl}/users`, params);
   if (!response.ok) {
     throw new Error("Could not register user");
+  }
+}
+
+export async function login(email, password) {
+  const params = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  };
+  const response = await fetch(`${baseUrl}/login`, params);
+  const body = await response.json();
+  console.log(body);
+  const { token, isAdmin } = body;
+  console.log(token, isAdmin);
+  auth.logIn(token, isAdmin);
+  if (!response.ok) {
+    throw new Error("Could not log in");
   }
 }
 

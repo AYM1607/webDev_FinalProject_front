@@ -5,6 +5,7 @@ import * as yup from "yup";
 
 import cart from "../lib/shoppingCart";
 import { formatNumber } from "../lib/core";
+import { createOrder } from "../lib/api";
 
 import ProductRow from "../components/ProductRow";
 import FloatingLabelField from "../components/FloatingLabelField";
@@ -95,14 +96,20 @@ const formSchema = yup.object().shape({
 });
 
 export default function Payment(props) {
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    // TODO: Implement the create order logic here.
-    cart.clearCart();
-    props.history.push("/gracias");
-  };
-
   const getTotal = () =>
     cartItems.reduce((acum, item) => acum + item.amount * item.price, 0);
+
+  const handleSubmit = async () => {
+    try {
+      await createOrder({ items: cartItems, total: getTotal() });
+      cart.clearCart();
+      props.history.push("/gracias");
+    } catch (e) {
+      console.log(e);
+      alert("Intentalo otra vez");
+    }
+  };
+
   return (
     <PaymentScreenContainer>
       <Title>Tu pedido:</Title>

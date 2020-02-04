@@ -5,6 +5,8 @@ import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import AdminProductCard from "../components/AdminProductCard";
 
+import { searchProducts } from "../lib/api";
+
 const Title = styled.h1`
   text-align: center;
   padding-top: 60px;
@@ -31,58 +33,22 @@ const CardsContainer = styled.div`
 export default function Admin(props) {
   const [isLoading, setIsLoading] = useState(false);
   // TODO: set the initial value as an empty array.
-  const [products, setProducts] = useState([
-    {
-      id: "lkjasdf",
-      name: "Cartera para dama",
-      description:
-        "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-      category: "carteras",
-      price: 250000,
-      imageUrl:
-        "https://final-project-web-dev.s3.amazonaws.com/images/01E07HSCWZWPN5YJVFX2FKFKR3.png"
-    },
-    {
-      id: "lkjasdfasdf",
-      name: "Cartera para dama",
-      description:
-        "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-      category: "carteras",
-      price: 250000,
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-    },
-    {
-      id: "lkjasdsaaaasdf",
-      name: "Cartera para dama",
-      description:
-        "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-      category: "carteras",
-      price: 250000,
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-    },
-    {
-      id: "lkj345asdf",
-      name: "Cartera para dama",
-      description:
-        "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-      category: "carteras",
-      price: 250000,
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-    }
-  ]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    //TODO: fetch the products here.
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setProducts(await searchProducts());
+      setIsLoading(false);
+    };
+    fetchProducts();
   }, []);
 
   return (
     <>
       <Title>Bienvenido administrador</Title>
       <StyledButton onClick={() => props.history.push("/new-product")}>
-        Agregar nuevo producto
+        Agregar producto
       </StyledButton>
       <LeftTitle>Productos actuales:</LeftTitle>
       {isLoading ? (

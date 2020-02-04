@@ -14,12 +14,20 @@ import Signup from "./screens/Signup";
 import Products from "./screens/Products";
 import Admin from "./screens/Admin";
 import NewProduct from "./screens/NewProduct";
+import MyOrders from "./screens/MyOrders";
+import AboutUs from "./screens/AboutUs";
 
 export default function Routes(props) {
   return (
     <Switch>
       <AppliedRoute appProps={props} component={Login} path="/login" exact />
       <AppliedRoute appProps={props} component={Signup} path="/signup" exact />
+      <AppliedRoute
+        appProps={props}
+        component={AboutUs}
+        path="/nosotros"
+        exact
+      />
       <AppliedRoute appProps={props} component={Home} path="/" exact />
       <AppliedRoute
         appProps={props}
@@ -31,6 +39,12 @@ export default function Routes(props) {
         appProps={props}
         component={Payment}
         path="/pagar"
+        exact
+      />
+      <AuthenticatedRoute
+        appProps={props}
+        component={MyOrders}
+        path="/ordenes"
         exact
       />
       <AppliedRoute

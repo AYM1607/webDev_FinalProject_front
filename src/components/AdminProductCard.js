@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 import { formatNumber } from "../lib/core";
 
+import LoaderButton from "../components/LoaderButton";
+import { deleteProduct } from "../lib/api";
+
 const Card = styled.div`
   width: 360px;
   height: 450px;
@@ -81,9 +84,25 @@ const Button = styled.div`
 `;
 
 export default function AdminProductCard(props) {
-  const { name, category, description, price, imageUrl, id } = props.product;
-  const handleEditClick = () => {
-    props.history.push(`/edit-product?id=${id}`);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    name,
+    category,
+    description,
+    price,
+    imageUrl,
+    productId
+  } = props.product;
+  const handleDeleteClick = async () => {
+    setIsLoading(true);
+    try {
+      await deleteProduct(productId);
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
   return (
     <Card>
@@ -95,14 +114,13 @@ export default function AdminProductCard(props) {
         <Spacer />
         <BottomRow>
           <div>{formatNumber(price / 100)}</div>
-          <Button onClick={handleEditClick}>Editar</Button>
-          <Button
-            onClick={() => {
-              //TODO: call the endpoint to delete the product.
-            }}
-          >
-            Eliminar
-          </Button>
+          <LoaderButton
+            text="Eliminar"
+            loadingText="Eliminando"
+            isLoading={isLoading}
+            disbled={isLoading}
+            onClick={handleDeleteClick}
+          />
         </BottomRow>
       </CardContent>
     </Card>

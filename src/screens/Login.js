@@ -6,8 +6,8 @@ import styled from "styled-components";
 import FloatingLabelField from "../components/FloatingLabelField";
 import LoaderButton from "../components/LoaderButton";
 
-import auth from "../lib/auth";
 import { querystring } from "../lib/core";
+import { login } from "../lib/api";
 
 const Title = styled.h1`
   text-align: center;
@@ -55,11 +55,18 @@ const formSchema = Yup.object().shape({
 });
 
 export default function Login(props) {
-  const handleSubmit = (values, { resetFrom, setSubmitting }) => {
-    //TODO: handle the actual authentication.
-    auth.logIn("someToken", true);
-    const redirectPath = querystring("redirect") || "/";
-    props.history.push(redirectPath);
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    try {
+      await login(values.email, values.password);
+      const redirectPath = querystring("redirect") || "/";
+      props.history.push(redirectPath);
+    } catch (e) {
+      alert("Uuppss... Intentalo de nuevo");
+      resetForm();
+      setSubmitting(false);
+      return;
+    }
+    setSubmitting(false);
   };
   return (
     <>

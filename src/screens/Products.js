@@ -7,6 +7,11 @@ import Spinner from "../components/Spinner";
 import { searchProducts } from "../lib/api";
 import { useDebouncedEffect } from "../lib/core";
 
+const TitleContainer = styled.div`
+  color: white;
+  background-color: #3f220fa0;
+`;
+
 const Title = styled.h1`
   margin: 0;
   padding: 60px 0;
@@ -18,7 +23,8 @@ const SearchBar = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #3f220fa0;
+  background-color: lightgray;
+  color: black;
 
   @media (min-width: 1112px) {
     flex-direction: row;
@@ -32,14 +38,13 @@ const StyledInput = styled.input`
   width: 90%;
   margin: 0 auto;
   border: none;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
   background-color: transparent;
-  color: white;
   font-size: 20px;
   padding: 0.5em;
 
   &::placeholder {
-    color: #ffffffb0;
+    color: #000000b0;
   }
 
   @media (min-width: 1112px) {
@@ -54,7 +59,6 @@ const KeywordInput = styled(StyledInput)`
 
 const PriceSelectorRow = styled.div`
   align-items: center;
-  color: white;
   width: 90%;
   margin: 0 auto 20px auto;
   display: flex;
@@ -78,10 +82,9 @@ const CategorySelector = styled.select`
   width: 90%;
   margin: 0 auto 20px auto;
   background-color: transparent;
-  color: white;
   font-size: 20px;
   border: none;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
   border-radius: 0;
 
   &:not([multiple]) {
@@ -89,7 +92,7 @@ const CategorySelector = styled.select`
     -moz-appearance: none;
     background-position: right 50%;
     background-repeat: no-repeat;
-    background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" fill="white" width="14" height="12" version="1"><path d="M4 8L0 4h8z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1"><path d="M4 8L0 4h8z"/></svg>');
     padding: 0.5em;
     padding-right: 1.5em;
   }
@@ -144,7 +147,9 @@ export default function Products(props) {
 
   return (
     <>
-      <Title>Nuestros productos</Title>
+      <TitleContainer>
+        <Title>Nuestros productos</Title>
+      </TitleContainer>
       <SearchBar>
         <KeywordInput
           placeholder="Nombre..."
