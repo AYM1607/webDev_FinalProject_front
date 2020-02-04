@@ -75,6 +75,8 @@ const Icon = styled(FontAwesomeIcon)`
 
 const MenuIcon = styled(FontAwesomeIcon)`
   margin-left: 10px;
+  user-select: none;
+
   &:hover {
     cursor: pointer;
   }
@@ -92,6 +94,10 @@ const Side = styled.div`
   align-items: center;
 `;
 
+const HorizontalSpacer = styled.div`
+  margin-left: auto;
+`;
+
 const Collapsable = styled.div`
   margin: 0;
   top: 60px;
@@ -105,15 +111,17 @@ const Collapsable = styled.div`
   overflow: hidden;
   z-index: 20;
   width: 100%;
-  max-height: ${props => (props.show ? "1000px" : "0")};
+  transform-origin: center top;
+  transform: scaleY(0);
   background-color: #3f220fa0;
-
-  @media (max-width: 900px) {
-    transition: max-height 0.4s linear;
-  }
+  transition: transform 0.2s ease-in-out;
+  visibility: ${props => (props.show ? "visible" : "hidden")};
+  transform: ${props => (props.show ? "scaleY(1)" : "scaleY(0)")};
 
   @media (min-width: 992px) {
-    max-height: 1000px;
+    visibility: visible;
+    transition: none;
+    transform: scaleY(1);
     position: static;
     flex-direction: row;
     background-color: transparent;
@@ -170,6 +178,16 @@ export default function NavigationBar(props) {
                 >
                   Mis ordenes
                 </Link>
+                {props.isAdmin ? (
+                  <Link
+                    onClick={() => navigate("/admin")}
+                    active={isLinkActive("/admin")}
+                  >
+                    Admin
+                  </Link>
+                ) : (
+                  ""
+                )}
               </>
             ) : (
               <>
@@ -200,7 +218,7 @@ export default function NavigationBar(props) {
           onClick={() => cart.openCart()}
         />
       ) : (
-        ""
+        <HorizontalSpacer />
       )}
       <MenuIcon
         icon={faBars}

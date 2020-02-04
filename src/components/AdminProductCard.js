@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { formatNumber, mapColorStringToHexString } from "../lib/core";
-import cart from "../lib/shoppingCart";
+import { formatNumber } from "../lib/core";
 
 const Card = styled.div`
   width: 360px;
@@ -17,9 +16,8 @@ const Card = styled.div`
 const CardImage = styled.img`
   height: 180px;
   width: 360px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
-  border: 1px solid lightgrey;
 `;
 
 const CardContent = styled.div`
@@ -72,7 +70,7 @@ const Spacer = styled.div`
   flex: 1;
 `;
 
-const AddToCartButton = styled.div`
+const Button = styled.div`
   background-color: #6f372d;
   color: white;
   padding: 10px;
@@ -82,11 +80,11 @@ const AddToCartButton = styled.div`
   }
 `;
 
-export default function ProductCard(props) {
-  const availableColors = ["black", "mocka", "tan"];
-  const [selectedColor, setSelectedColor] = useState("black");
-  const { name, category, description, price, imageUrl } = props.product;
-
+export default function AdminProductCard(props) {
+  const { name, category, description, price, imageUrl, id } = props.product;
+  const handleEditClick = () => {
+    props.history.push(`/edit-product?id=${id}`);
+  };
   return (
     <Card>
       <CardImage src={imageUrl} />
@@ -95,29 +93,16 @@ export default function ProductCard(props) {
         <ProductDescription>{description}</ProductDescription>
         <ProductCategory>Categoría: {category}</ProductCategory>
         <Spacer />
-        <ColorsRow>
-          {availableColors.map(color => (
-            <Color
-              key={color}
-              active={selectedColor === color}
-              backgroundColor={mapColorStringToHexString(color)}
-              onClick={() => setSelectedColor(color)}
-            />
-          ))}
-        </ColorsRow>
         <BottomRow>
           <div>{formatNumber(price / 100)}</div>
-          <AddToCartButton
-            onClick={() =>
-              cart.addItem({
-                ...props.product,
-                color: selectedColor,
-                amount: 1
-              })
-            }
+          <Button onClick={handleEditClick}>Editar</Button>
+          <Button
+            onClick={() => {
+              //TODO: call the endpoint to delete the product.
+            }}
           >
-            Agregar al carrito
-          </AddToCartButton>
+            Eliminar
+          </Button>
         </BottomRow>
       </CardContent>
     </Card>

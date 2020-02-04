@@ -8,7 +8,7 @@ import ClosingButton from "./ClosingButton";
 import { formatNumber } from "../lib/core";
 
 const SideModal = styled.div`
-  width: ${props => (props.isOpen ? "500px" : "0")};
+  width: ${props => (props.isOpen ? "100%" : "0")};
   float: right;
   height: 100vh;
   position: fixed;
@@ -25,6 +25,10 @@ const SideModal = styled.div`
   -webkit-box-shadow: -1px 0px 12px -1px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -1px 0px 12px -1px rgba(0, 0, 0, 0.75);
   box-shadow: -1px 0px 12px -1px rgba(0, 0, 0, 0.75);
+
+  @media (min-width: 500px) {
+    width: ${props => (props.isOpen ? "500px" : "0")};
+  }
 `;
 
 const InnerContainer = styled.div`

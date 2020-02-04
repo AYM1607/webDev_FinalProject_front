@@ -34,9 +34,17 @@ function App(props) {
   return (
     <div>
       <GlobalStyles />
-      <NavigationBar {...props} isAuthenticated={authState.isAuthenticated} />
+      <NavigationBar
+        {...props}
+        isAuthenticated={authState.isAuthenticated}
+        isAdmin={authState.isAdmin}
+      />
       <RoutesContainer>
-        <Routes {...props} isAuthenticated={authState.isAuthenticated} />
+        <Routes
+          {...props}
+          isAuthenticated={authState.isAuthenticated}
+          isAdmin={authState.isAdmin}
+        />
       </RoutesContainer>
       <ShoppingCart {...props} />
     </div>

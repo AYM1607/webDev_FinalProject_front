@@ -1,72 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import ProductCard from "../components/ProductCard";
+import Spinner from "../components/Spinner";
+
+import { getTopProducts } from "../lib/api";
 
 import bannerImage from "../assets/background.jpg";
-
-const products = [
-  {
-    id: "lkjasdf",
-    name: "Cartera para dama",
-    description:
-      "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-    category: "carteras",
-    price: 250000,
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-  },
-  {
-    id: "lkjasdfasdf",
-    name: "Cartera para dama",
-    description:
-      "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-    category: "carteras",
-    price: 250000,
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-  },
-  {
-    id: "lkjasdsaaaasdf",
-    name: "Cartera para dama",
-    description:
-      "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-    category: "carteras",
-    price: 250000,
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-  },
-  {
-    id: "lkj345asdf",
-    name: "Cartera para dama",
-    description:
-      "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-    category: "carteras",
-    price: 250000,
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-  },
-  {
-    id: "lkasdf34jasdf",
-    name: "Cartera para dama",
-    description:
-      "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-    category: "carteras",
-    price: 250000,
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-  },
-  {
-    id: "lkjasdaaasdddfff",
-    name: "Cartera para dama",
-    description:
-      "Esta cartera es muy elegante, incorpora un cierre y varios compartimentos",
-    category: "carteras",
-    price: 250000,
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/71PUr7p3-XL._AC_UY1000_.jpg"
-  }
-];
 
 const BannerImage = styled.img`
   width: 100%;
@@ -111,7 +51,16 @@ const CardsContainer = styled.div`
   margin: 0 auto;
 `;
 
-export default function Home(props) {
+export default function Home(_props) {
+  const [products, setProducts] = useState(null);
+
+  useState(() => {
+    const fetchProducts = async () => {
+      setProducts(await getTopProducts());
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <StyledHeader>
@@ -121,11 +70,15 @@ export default function Home(props) {
         </HeaderTitleContainer>
       </StyledHeader>
       <Title>Lo más nuevo:</Title>
-      <CardsContainer>
-        {products.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </CardsContainer>
+      {products ? (
+        <CardsContainer>
+          {products.map(product => (
+            <ProductCard key={product.productId} product={product} />
+          ))}
+        </CardsContainer>
+      ) : (
+        <Spinner />
+      )}
     </>
   );
 }

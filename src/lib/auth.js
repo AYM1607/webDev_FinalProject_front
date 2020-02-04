@@ -10,6 +10,7 @@ const getInitialState = () => {
   const authToken = window.localStorage.getItem("leathery-token");
   return {
     isAuthenticated: !!authToken,
+    isAdmin: !!authToken,
     currentToken: authToken
   };
 };
@@ -18,8 +19,8 @@ let state = getInitialState();
 
 const authSubject = new BehaviorSubject(state);
 
-const setAuthState = (authState, token = null) => {
-  state = { isAuthenticated: authState, token };
+const setAuthState = (authState, token = null, isAdmin = false) => {
+  state = { isAuthenticated: authState, token, isAdmin };
   if (!token) {
     window.localStorage.removeItem("leathery-token");
   }
@@ -33,6 +34,6 @@ export default {
   initialState: state,
   getCurrentToken: () => state,
   subscribe: setState => authSubject.subscribe(setState),
-  logIn: token => setAuthState(true, token),
+  logIn: (token, isAdmin) => setAuthState(true, token, isAdmin),
   logOut: () => setAuthState(false)
 };

@@ -39,17 +39,17 @@ export default ({
   text,
   loadingText,
   disabled = false,
-  onClickProp,
+  onClick,
   className,
   type
 }) => {
   const shouldDisable = isLoading || disabled;
-  const onClick = shouldDisable ? null : onClickProp;
+  const onClickProp = shouldDisable ? null : onClick;
   return (
     <Button
       type={type}
       disabled={shouldDisable}
-      onClick={onClick}
+      onClick={onClickProp}
       className={className}
     >
       {isLoading && <RotatingGlyp icon={faSpinner} />}

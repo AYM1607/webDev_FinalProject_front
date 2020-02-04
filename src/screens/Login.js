@@ -57,7 +57,7 @@ const formSchema = Yup.object().shape({
 export default function Login(props) {
   const handleSubmit = (values, { resetFrom, setSubmitting }) => {
     //TODO: handle the actual authentication.
-    auth.logIn("someToken");
+    auth.logIn("someToken", true);
     const redirectPath = querystring("redirect") || "/";
     props.history.push(redirectPath);
   };
