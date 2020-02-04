@@ -98,7 +98,7 @@ export default function AdminProductCard(props) {
     setIsLoading(true);
     try {
       await deleteProduct(productId);
-      window.location.reload();
+      props.onDelete();
     } catch (e) {
       console.log(e);
     }

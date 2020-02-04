@@ -59,6 +59,7 @@ export default function Admin(props) {
         <CardsContainer>
           {products.map(product => (
             <AdminProductCard
+              onDelete={() => props.history.push("/admin")}
               key={product.productId}
               product={product}
               history={props.history}
